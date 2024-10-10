@@ -1,9 +1,16 @@
 import ky from "ky";
 
-const API_BASE_URL = "http://213.177.102.118:444/api";
+const BASE_URL = "http://192.168.0.223/worktruck/hs/wt_panel/";
+const TIME_URL = "http://192.168.0.190:5053/api";
 
 export const baseTransport = ky.create({
-    prefixUrl: API_BASE_URL,
+    prefixUrl: BASE_URL,
+    timeout: 3000,
+    retry: { limit: 2 },
+});
+
+export const TimeTransport = ky.create({
+    prefixUrl: TIME_URL,
     timeout: 3000,
     retry: { limit: 2 },
     headers: {
@@ -11,5 +18,7 @@ export const baseTransport = ky.create({
     },
 });
 
-export const get = baseTransport.get;
-export const post = baseTransport.post;
+export const baseGet = baseTransport.get;
+export const basePost = baseTransport.post;
+export const timeGet = TimeTransport.get;
+export const timePost = TimeTransport.post;

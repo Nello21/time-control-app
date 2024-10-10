@@ -9,10 +9,10 @@ import { getUsers } from "../_actions/getUsers";
 const sessionKey = "session";
 const userKey = "user";
 
-export function useGetUser() {
+export function useGetUsers({ department }: { department: string }) {
     return useQuery({
         queryKey: [userKey],
-        queryFn: () => getUsers(),
+        queryFn: () => getUsers({ department }),
     });
 }
 

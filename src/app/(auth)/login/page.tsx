@@ -1,4 +1,4 @@
-import { FormLogin } from "@/features/auth/ui/form-login";
+import { FormLogin } from "@/features/auth/_ui/form-login";
 import { Container } from "@/shared/ui/container";
 
 function LoginPage() {

@@ -14,9 +14,16 @@ const config = {
                 "2xl": "1400px",
             },
         },
+        screens: {
+            sm: "640px",
+            md: "768px",
+            lg: "1024px",
+            xl: "1280px",
+            "2xl": "1536px",
+        },
         colors: {
             gray: {
-                light: "#E3E3E3",
+                light: "#EEEEEE",
                 dark: "#616161",
                 gray: colors.gray,
             },

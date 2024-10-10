@@ -1,5 +1,5 @@
 import { login } from "@/entity/user/_actions/login";
-import { useInvalidateSession } from "@/entity/user/_queries";
+import { useInvalidateSession } from "@/entity/user/session";
 import { routes } from "@/shared/config/routes";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
@@ -33,7 +33,7 @@ export const useFormLogin = () => {
                 });
             }
             await invalidateSession();
-            router.replace(routes.COMPANIES);
+            router.replace(routes.MAIN);
         },
         onError: (error) => {
             form.setError("root", {
