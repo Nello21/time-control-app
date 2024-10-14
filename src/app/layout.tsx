@@ -23,7 +23,7 @@ export default function RootLayout({
             >
                 <AppProvider>
                     <Header />
-                    <main className="flex-gow">{children}</main>
+                    <main className="flex-gow my-4">{children}</main>
                 </AppProvider>
             </body>
         </html>

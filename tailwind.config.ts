@@ -1,6 +1,6 @@
 import type { Config } from "tailwindcss";
 import animate from "tailwindcss-animate";
-import colors from "tailwindcss/colors";
+import colors, { green } from "tailwindcss/colors";
 
 const config = {
     darkMode: ["class"],
@@ -11,7 +11,7 @@ const config = {
             center: true,
             padding: "2rem",
             screens: {
-                "2xl": "1400px",
+                xl: "1280px",
             },
         },
         screens: {
@@ -24,18 +24,27 @@ const config = {
         colors: {
             gray: {
                 light: "#EEEEEE",
-                dark: "#616161",
+                dark: "#464646",
                 gray: colors.gray,
             },
             blue: {
                 dark: "#003362",
-                light: "#AED8FF",
+                light: "#2F80ED",
                 gray: colors.blue,
+            },
+            red: {
+                light: "#EB5757",
+                red: colors.red,
+            },
+            green: {
+                dark: "#219653",
+                light: "#27AE60",
+                green: colors.green,
             },
             white: colors.white,
             black: colors.black,
-            red: colors.red,
             yellow: colors.yellow,
+            transparent: colors.transparent,
         },
         extend: {
             keyframes: {

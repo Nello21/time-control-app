@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { getDepartments } from "../_actions/getDepartments";
+import { getDepartments } from "../_actions/get-departments";
 
 const departmentsKey = "departments";
 

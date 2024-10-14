@@ -4,15 +4,32 @@ import { routes } from "@/shared/config/routes";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { getServerSession, removeSession } from "../_actions/session";
-import { getUsers } from "../_actions/getUsers";
+import { getUsers } from "../_actions/get-users";
+import { getWorkerPlan } from "../_actions/get-worker-plan";
+import { getUserUID } from "../_actions/get-user-time-control-id";
 
 const sessionKey = "session";
 const userKey = "user";
+const TimeControlUserIdkey = "TimeControlUserId";
+const worksPlanKey = "worksPlan";
 
-export function useGetUsers({ department }: { department: string }) {
+export function useUsers({ department }: { department: string | null }) {
     return useQuery({
-        queryKey: [userKey],
+        queryKey: [userKey, department],
         queryFn: () => getUsers({ department }),
+    });
+}
+export function useUserUID({ tabnum }: { tabnum: string }) {
+    return useQuery({
+        queryKey: [TimeControlUserIdkey, tabnum],
+        queryFn: () => getUserUID({ tabnum }),
+    });
+}
+export function useWorkerPlan({ uid }: { uid: string | null }) {
+    return useQuery({
+        queryKey: [worksPlanKey, uid],
+        queryFn: () => getWorkerPlan({ uid }),
+        enabled: !!uid,
     });
 }
 

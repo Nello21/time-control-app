@@ -11,7 +11,7 @@ import {
 import { Menu, Plus } from "lucide-react";
 import { useMenu } from "../_model/use-menu";
 import { LogoutBtn } from "./logout-btn";
-import { Profile } from "@/widgets/profile/_ui/profile";
+import { Profile } from "@/features/profile/_ui/profile";
 
 export const ProfileMenu = () => {
     const { closeSheet, session, setOpen, open } = useMenu();
