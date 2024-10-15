@@ -1,4 +1,4 @@
-import { useGetUsers } from "@/entity/user/user";
+import { useUsers } from "@/entity/user/user";
 import { Button } from "@/shared/ui/button";
 import { WorkerCard } from "./worker-card";
 
@@ -9,7 +9,7 @@ export const WorkersList = ({
     onBack: () => void;
     department: string | null;
 }) => {
-    const { data, isError, isLoading } = useGetUsers({ department });
+    const { data, isError, isLoading } = useUsers({ department });
 
     if (isLoading) {
         return <div>Loading...</div>;
@@ -28,16 +28,18 @@ export const WorkersList = ({
                 Назад к отделам
             </Button>
             <div className="grid grid-cols-2 gap-2">
-                {data?.data &&
-                    data.data.map((user) => {
-                        return (
-                            <WorkerCard
-                                key={user.code}
-                                tabnum={user.code}
-                                name={user.name}
-                            />
-                        );
-                    })}
+                {data?.map((user) => {
+                    const [lastName, firstName] = user.name.split(" ");
+
+                    const formattedName = `${lastName} ${firstName}`;
+                    return (
+                        <WorkerCard
+                            key={user.code}
+                            tabnum={user.code}
+                            name={formattedName}
+                        />
+                    );
+                })}
             </div>
         </div>
     );

@@ -1,6 +1,6 @@
 import type { Config } from "tailwindcss";
 import animate from "tailwindcss-animate";
-import colors, { green } from "tailwindcss/colors";
+import colors from "tailwindcss/colors";
 
 const config = {
     darkMode: ["class"],
@@ -41,9 +41,16 @@ const config = {
                 light: "#27AE60",
                 green: colors.green,
             },
+            yellow: {
+                light: "#F2C94C",
+                yellow: colors.yellow,
+            },
+            orange: {
+                light: "#F2994A",
+                orange: colors.orange,
+            },
             white: colors.white,
             black: colors.black,
-            yellow: colors.yellow,
             transparent: colors.transparent,
         },
         extend: {

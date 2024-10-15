@@ -1,1 +1,1 @@
-export { getServerSession, getSessionStrictServer } from "./_actions/session";
+export { getServerSession } from "./_actions/session";

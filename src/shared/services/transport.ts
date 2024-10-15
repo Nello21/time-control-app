@@ -1,16 +1,15 @@
 import ky from "ky";
 
-const BASE_URL = "http://192.168.0.223/worktruck/hs/wt_panel/";
-const TIME_URL = "http://192.168.0.190:5053/api";
+const isServer = typeof window === "undefined";
 
 export const baseTransport = ky.create({
-    prefixUrl: BASE_URL,
+    prefixUrl: isServer ? process.env.BASE_URL : "/api/1c",
     timeout: 3000,
     retry: { limit: 2 },
 });
 
 export const TimeTransport = ky.create({
-    prefixUrl: TIME_URL,
+    prefixUrl: isServer ? process.env.TIME_URL : "/api/time-control",
     timeout: 3000,
     retry: { limit: 2 },
     headers: {

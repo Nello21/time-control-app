@@ -15,7 +15,7 @@ import { Profile } from "@/features/profile/_ui/profile";
 
 export const ProfileMenu = () => {
     const { closeSheet, session, setOpen, open } = useMenu();
-    const opacity = open ? 100 : 0;
+
     return (
         <Sheet open={open} onOpenChange={setOpen}>
             {!open && (

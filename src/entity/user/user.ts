@@ -1,4 +1,1 @@
-export {
-    useUsers as useGetUsers,
-    useWorkerPlan as useGetWorksPlan,
-} from "./_queries/index";
+export { useUsers, useWorkerPlan } from "./_queries/index";

@@ -1,8 +1,6 @@
-"use server";
-
-import { serverAction } from "@/shared/lib/server-action";
 import { timeGet } from "@/shared/services/transport";
 import { WorkerPlanResponse } from "../_domain/types";
+import { getUserTimeData } from "./get-user-time-data";
 
 const today = new Date();
 const formattedDate = today.toLocaleDateString("ru-RU", {
@@ -11,12 +9,18 @@ const formattedDate = today.toLocaleDateString("ru-RU", {
     year: "numeric",
 });
 
-export const getWorkerPlan = serverAction(
-    async ({ uid }: { uid: string | null }) => {
-        const response = await timeGet<WorkerPlanResponse>(
-            `time/works?startdate=${formattedDate}&enddate=${formattedDate}&person_list=${uid}`
-        ).json();
+export const getWorkerPlan = async ({ id }: { id: string }) => {
+    const user = await getUserTimeData({ tabnum: id });
 
-        return response.data;
+    if (!user) {
+        throw new Error(
+            `No valid user data found for worker with tabnum ${id}`
+        );
     }
-);
+
+    const response = await timeGet<WorkerPlanResponse>(
+        `time/works?startdate=${formattedDate}&enddate=${formattedDate}&person_list=${user[0].UID}`
+    ).json();
+
+    return { data: response.data, profession: user[0].DOLJNAME };
+};

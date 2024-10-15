@@ -6,11 +6,9 @@ import { useRouter } from "next/navigation";
 import { getServerSession, removeSession } from "../_actions/session";
 import { getUsers } from "../_actions/get-users";
 import { getWorkerPlan } from "../_actions/get-worker-plan";
-import { getUserUID } from "../_actions/get-user-time-control-id";
 
 const sessionKey = "session";
 const userKey = "user";
-const TimeControlUserIdkey = "TimeControlUserId";
 const worksPlanKey = "worksPlan";
 
 export function useUsers({ department }: { department: string | null }) {
@@ -19,17 +17,13 @@ export function useUsers({ department }: { department: string | null }) {
         queryFn: () => getUsers({ department }),
     });
 }
-export function useUserUID({ tabnum }: { tabnum: string }) {
+
+export function useWorkerPlan({ id }: { id: string }) {
     return useQuery({
-        queryKey: [TimeControlUserIdkey, tabnum],
-        queryFn: () => getUserUID({ tabnum }),
-    });
-}
-export function useWorkerPlan({ uid }: { uid: string | null }) {
-    return useQuery({
-        queryKey: [worksPlanKey, uid],
-        queryFn: () => getWorkerPlan({ uid }),
-        enabled: !!uid,
+        queryKey: [worksPlanKey, id],
+        queryFn: () => getWorkerPlan({ id }),
+        retryDelay: 250,
+        retry: 2,
     });
 }
 

@@ -1,7 +1,9 @@
+"use server";
+
 import { cookies } from "next/headers";
 
 export const cookie = {
-    set: function ({
+    set: async function ({
         key,
         value,
         options,
@@ -16,11 +18,11 @@ export const cookie = {
         const cookie = cookies();
         return cookie.set(key, value, options);
     },
-    get: function ({ key }: { key: string }) {
+    get: async function ({ key }: { key: string }) {
         const cookie = cookies();
         return cookie.get(key);
     },
-    remove: function ({ key }: { key: string }) {
+    remove: async function ({ key }: { key: string }) {
         const cookie = cookies();
         return cookie.delete(key);
     },

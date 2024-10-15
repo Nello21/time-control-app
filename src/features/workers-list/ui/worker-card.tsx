@@ -1,6 +1,8 @@
 import { Card } from "@/shared/ui/card";
 import { useWorkerStatus } from "../model/use-worker-status";
 import { cn } from "@/shared/lib/utils";
+import { Skeleton } from "@/shared/ui/skeleton";
+import { UserRoundSearch } from "lucide-react";
 
 export const WorkerCard = ({
     name,
@@ -9,37 +11,39 @@ export const WorkerCard = ({
     name: string;
     tabnum: string;
 }) => {
-    const { planData, profession, isError, isLoading, styles } =
-        useWorkerStatus({ tabnum });
-
-    console.log(planData);
+    const { data, isError, isLoading, styles } = useWorkerStatus({ tabnum });
 
     if (isLoading) {
-        return <div>Loading...</div>;
-    }
+        return (
+            <Card className="flex flex-col justify-between px-4 py-2 gap-4 max-w-[380px] w-full bg-white border-0">
+                <div className="flex flex-row justify-between gap-2">
+                    <Skeleton className="w-[190px] h-5" />
+                    <Skeleton className="w-[60px] h-3" />
+                </div>
 
-    if (isError) {
-        return <div>Error loading users data.</div>;
+                <Skeleton className="w-[126px] h-[30px]" />
+            </Card>
+        );
     }
 
     return (
-        <Card className="w-[350px] px-4 py-2 bg-white border-0 flex flex-col gap-2">
-            <div className="flex flex-row items-start justify-between">
+        <Card className="flex flex-col justify-between px-4 py-2 gap-4 max-w-[380px] w-full bg-white border-0">
+            <div className="flex flex-row justify-between gap-3 max-sm:flex-col">
                 <span>{name}</span>
-                <span className="text-xs/3 font-normal text-gray-dark text-wrap">
-                    {profession}
+                <span className="py-1 text-xs/3 font-normal text-gray-dark truncate">
+                    {data?.profession}
                 </span>
             </div>
 
-            <div
-                className={cn(
-                    "flex items-center gap-2 w-[150px] rounded-md h-[30px] px-2 text-white",
-                    styles?.bgClass
-                )}
-            >
-                {styles?.icon}
-                <span className="">{planData && planData[0].DAYTYPE}</span>
-            </div>
+            {styles?.element}
+            {isError && (
+                <div className="flex justify-end">
+                    <div className="flex items-center gap-2 w-fit h-fit px-2 py-1 rounded-md text-white bg-red-light">
+                        <UserRoundSearch size={20} />
+                        <span>не найден</span>
+                    </div>
+                </div>
+            )}
         </Card>
     );
 };

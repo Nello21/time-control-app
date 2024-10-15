@@ -36,8 +36,8 @@ export function CalendarWidget() {
                 className="rounded-[10px] bg-white shadow-md"
                 modifiers={modifiers}
                 modifiersClassNames={{
-                    present: "bg-green-light rounded-2xl",
-                    absent: "bg-red-light rounded-2xl",
+                    present: "bg-green-light",
+                    absent: "bg-red-light",
                 }}
                 toDate={new Date()}
             />
