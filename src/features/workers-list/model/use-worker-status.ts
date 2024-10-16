@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { dayTypeStyles } from "./elements";
-import { useWorkerPlan } from "@/entity/user/user";
+import { useWorkerPlan } from "@/entity/user/_queries";
 
 type StringIndex = keyof typeof dayTypeStyles;
 

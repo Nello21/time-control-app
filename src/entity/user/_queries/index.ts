@@ -1,20 +1,21 @@
 "use client";
 
-import { routes } from "@/shared/config/routes";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useRouter } from "next/navigation";
-import { getServerSession, removeSession } from "../_actions/session";
-import { getUsers } from "../_actions/get-users";
+import { getSession, logout } from "../_actions/session";
+import { queryClient } from "@/shared/lib/query-client";
+import { getWorkers } from "../_actions/get-workers";
 import { getWorkerPlan } from "../_actions/get-worker-plan";
+import { getProfilePlan } from "../_actions/get-profile-plan";
 
-const sessionKey = "session";
-const userKey = "user";
+const sessionKey = "SESSION";
+const workerKey = "user";
+const profileKey = "user";
 const worksPlanKey = "worksPlan";
 
-export function useUsers({ department }: { department: string | null }) {
+export function useWorkers({ department }: { department: string | null }) {
     return useQuery({
-        queryKey: [userKey, department],
-        queryFn: () => getUsers({ department }),
+        queryKey: [workerKey, department],
+        queryFn: () => getWorkers({ department }),
     });
 }
 
@@ -23,16 +24,45 @@ export function useWorkerPlan({ id }: { id: string }) {
         queryKey: [worksPlanKey, id],
         queryFn: () => getWorkerPlan({ id }),
         retryDelay: 250,
+        retry: 1,
+    });
+}
+export function useProfilePlan({
+    id,
+    date,
+}: {
+    id: string;
+    date: { start: String; end: String };
+}) {
+    return useQuery({
+        queryKey: [profileKey, id, date],
+        queryFn: () => getProfilePlan({ id, date }),
+        retryDelay: 250,
         retry: 2,
     });
 }
 
-export function useSession() {
+export function useAppSession() {
     return useQuery({
         queryKey: [sessionKey],
-        queryFn: () => getServerSession(),
+
+        queryFn: () => getSession(),
+
         retry: 0,
-        staleTime: 5 * 60 * 1000,
+
+        staleTime: 15 * 60 * 1000,
+
+        refetchInterval: 15 * 60 * 1000,
+    });
+}
+
+export function useLogout() {
+    return useMutation({
+        mutationFn: logout,
+
+        onSuccess: () => {
+            queryClient.resetQueries();
+        },
     });
 }
 
@@ -47,22 +77,4 @@ export function useInvalidateSession() {
         queryClient.invalidateQueries({
             queryKey: [sessionKey],
         });
-}
-
-export function useLogout() {
-    const resetSession = useResetSession();
-    const router = useRouter();
-
-    const { isPending, mutate } = useMutation({
-        mutationFn: removeSession,
-        async onSuccess() {
-            router.push(routes.MAIN);
-            resetSession();
-        },
-    });
-
-    return {
-        logout: mutate,
-        isPending,
-    };
 }

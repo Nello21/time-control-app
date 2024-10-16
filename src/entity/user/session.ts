@@ -2,5 +2,5 @@ export {
     useInvalidateSession,
     useLogout,
     useResetSession,
-    useSession,
+    useAppSession,
 } from "./_queries";

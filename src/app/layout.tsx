@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
-import { AppProvider } from "./_providers";
+import { AppProvider } from "./_providers/reactQuery-provider";
 import "./globals.css";
 import { Header } from "@/widgets/header/_ui/header";
 
@@ -23,7 +23,9 @@ export default function RootLayout({
             >
                 <AppProvider>
                     <Header />
-                    <main className="flex-gow my-4">{children}</main>
+                    <main className="flex-grow flex flex-col items-center my-4 ">
+                        {children}
+                    </main>
                 </AppProvider>
             </body>
         </html>

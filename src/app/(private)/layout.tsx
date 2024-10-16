@@ -1,4 +1,4 @@
-import { AuthGuard } from "@/features/auth/auth-guard";
+import { SessionProvider } from "@/app/_providers/session-provider";
 import { Container } from "@/shared/ui/container";
 
 export default function Layout({
@@ -11,8 +11,10 @@ export default function Layout({
     return (
         <div className="h-auto px-4 sm:mt-[50px]">
             <Container className="px-0 flex flex-row items-center sm:items-start gap-6">
-                {children}
-                {profile}
+                <SessionProvider>
+                    {children}
+                    {profile}
+                </SessionProvider>
             </Container>
         </div>
     );

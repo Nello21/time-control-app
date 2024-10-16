@@ -1,8 +1,6 @@
 import { Card } from "@/shared/ui/card";
 import { useWorkerStatus } from "../model/use-worker-status";
-import { cn } from "@/shared/lib/utils";
 import { Skeleton } from "@/shared/ui/skeleton";
-import { UserRoundSearch } from "lucide-react";
 
 export const WorkerCard = ({
     name,
@@ -26,6 +24,8 @@ export const WorkerCard = ({
         );
     }
 
+    if (isError) return;
+
     return (
         <Card className="flex flex-col justify-between px-4 py-2 gap-4 max-w-[380px] w-full bg-white border-0">
             <div className="flex flex-row justify-between gap-3 max-sm:flex-col">
@@ -36,14 +36,6 @@ export const WorkerCard = ({
             </div>
 
             {styles?.element}
-            {isError && (
-                <div className="flex justify-end">
-                    <div className="flex items-center gap-2 w-fit h-fit px-2 py-1 rounded-md text-white bg-red-light">
-                        <UserRoundSearch size={20} />
-                        <span>не найден</span>
-                    </div>
-                </div>
-            )}
         </Card>
     );
 };

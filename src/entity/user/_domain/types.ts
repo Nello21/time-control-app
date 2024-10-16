@@ -1,4 +1,12 @@
 export type User = {
+    city: string;
+    id: string;
+    name: string;
+    phone: string;
+    roles: [];
+};
+
+export type Employee = {
     name: string;
     code: string;
     tasks: string;

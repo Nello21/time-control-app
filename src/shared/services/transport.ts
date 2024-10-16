@@ -2,13 +2,13 @@ import ky from "ky";
 
 const isServer = typeof window === "undefined";
 
-export const baseTransport = ky.create({
+export const baseService = ky.create({
     prefixUrl: isServer ? process.env.BASE_URL : "/api/1c",
     timeout: 3000,
     retry: { limit: 2 },
 });
 
-export const TimeTransport = ky.create({
+export const timeService = ky.create({
     prefixUrl: isServer ? process.env.TIME_URL : "/api/time-control",
     timeout: 3000,
     retry: { limit: 2 },
@@ -17,7 +17,16 @@ export const TimeTransport = ky.create({
     },
 });
 
-export const baseGet = baseTransport.get;
-export const basePost = baseTransport.post;
-export const timeGet = TimeTransport.get;
-export const timePost = TimeTransport.post;
+export const authService = ky.create({
+    prefixUrl: isServer ? process.env.AUTH_URL : "/api/auth-service",
+    timeout: 3000,
+    retry: { limit: 2 },
+});
+
+export const baseGet = baseService.get;
+export const basePost = baseService.post;
+
+export const timeGet = timeService.get;
+export const timePost = timeService.post;
+
+export const authGet = authService.get;

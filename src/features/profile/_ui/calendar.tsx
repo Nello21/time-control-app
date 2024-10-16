@@ -2,43 +2,26 @@
 
 import { Calendar } from "@/shared/ui/calendar";
 import * as React from "react";
+import { modifiersClassNames } from "../_model/modifiers";
 
-type AttendanceRecord = {
-    date: Date;
-    present: boolean;
-};
-
-export function CalendarWidget() {
-    const [date, setDate] = React.useState<Date | undefined>(new Date());
-
-    const attendanceData: AttendanceRecord[] = [
-        { date: new Date(2024, 9, 2), present: true },
-        { date: new Date(2024, 9, 5), present: false },
-        { date: new Date(2024, 9, 10), present: true },
-        // Другие даты
-    ];
-
-    const modifiers = {
-        present: attendanceData
-            .filter((record) => record.present)
-            .map((record) => record.date),
-        absent: attendanceData
-            .filter((record) => !record.present)
-            .map((record) => record.date),
-    };
-
+export function CalendarWidget({
+    selected,
+    onSelect,
+    modifiers,
+}: {
+    selected: Date | undefined;
+    onSelect: React.Dispatch<React.SetStateAction<Date | undefined>>;
+    modifiers: Record<string, Date[]>;
+}) {
     return (
         <div className="w-full">
             <Calendar
                 mode="single"
-                selected={date}
-                onSelect={setDate}
+                selected={selected}
+                onMonthChange={onSelect}
                 className="rounded-[10px] bg-white shadow-md"
                 modifiers={modifiers}
-                modifiersClassNames={{
-                    present: "bg-green-light",
-                    absent: "bg-red-light",
-                }}
+                modifiersClassNames={modifiersClassNames}
                 toDate={new Date()}
             />
         </div>

@@ -1,15 +1,14 @@
 import { timeGet } from "@/shared/services/transport";
-import { WorkerPlanResponse } from "../../user/_domain/types";
+import { WorkerPlanResponse } from "../_domain/types";
 import { getWorkerTimeData } from "./get-worker-time-data";
 
-const today = new Date();
-const formattedDate = today.toLocaleDateString("ru-RU", {
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric",
-});
-
-export const getWorkerPlan = async ({ id }: { id: string }) => {
+export const getProfilePlan = async ({
+    id,
+    date,
+}: {
+    id: string;
+    date: { start: String; end: String };
+}) => {
     const user = await getWorkerTimeData({ tabnum: id });
 
     if (!user) {
@@ -18,8 +17,10 @@ export const getWorkerPlan = async ({ id }: { id: string }) => {
         );
     }
 
+    console.log(date);
+
     const response = await timeGet<WorkerPlanResponse>(
-        `time/works?startdate=${formattedDate}&enddate=${formattedDate}&person_list=${user[0].UID}`
+        `time/works?startdate=${date.start}&enddate=${date.end}&person_list=${user[0].UID}`
     ).json();
 
     return { data: response.data, profession: user[0].DOLJNAME };

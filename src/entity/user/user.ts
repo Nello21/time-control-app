@@ -1,1 +1,1 @@
-export { useUsers, useWorkerPlan } from "./_queries/index";
+export { useUser, useUserPlan } from "./_queries/index";

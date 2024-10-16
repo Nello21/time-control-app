@@ -1,42 +1,26 @@
-import { cookie } from "@/shared/lib/cookie";
+import { deleteCookie, getCookie } from "@/shared/lib/cookie";
+import { authGet } from "@/shared/services/transport";
+import { User } from "../_domain/types";
+import { COOKIE_SESSION_NAME } from "@/shared/lib/consts";
 
-const COOKIE_SESSION_KEY = "SESSION";
+export const getSession = async (): Promise<User> => {
+    const sessionToken = await getCookie({ name: COOKIE_SESSION_NAME });
 
-export const getServerSession = async (): Promise<{} | null> => {
-    const sessionCookie = await cookie.get({ key: COOKIE_SESSION_KEY });
-
-    console.log("cookie", sessionCookie);
-
-    if (!sessionCookie) {
-        return null;
-    }
-
-    const session = JSON.parse(sessionCookie.value);
-
-    const user = 1;
-
-    console.log("getSession", { user });
-
-    return { user };
-};
-
-export const setSession = async ({
-    id,
-    phone,
-}: {
-    id: number;
-    phone: string;
-}) => {
-    cookie.set({
-        key: COOKIE_SESSION_KEY,
-        value: JSON.stringify({ id, phone }),
-        options: {
-            httpOnly: true,
-            maxAge: 24 * 60 * 60,
+    const res = await authGet(`session/session-info`, {
+        headers: {
+            Authorization: `Bearer ${sessionToken}`,
         },
     });
+
+    if (!res.ok) {
+        throw new Error(
+            `Ошибка при получении данных сессии: ${res.statusText}`
+        );
+    }
+
+    return res.json();
 };
 
-export const removeSession = async () => {
-    cookie.remove({ key: COOKIE_SESSION_KEY });
+export const logout = async () => {
+    return deleteCookie({ name: COOKIE_SESSION_NAME });
 };

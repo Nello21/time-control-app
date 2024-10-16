@@ -1,78 +1,89 @@
 "use client";
 
-import { cn } from "@/shared/lib/utils";
-import { Alert, AlertDescription, AlertTitle } from "@/shared/ui/alert";
-import { Button } from "@/shared/ui/button";
-import {
-    Form,
-    FormControl,
-    FormField,
-    FormItem,
-    FormMessage,
-} from "@/shared/ui/form";
-import { Input } from "@/shared/ui/input";
-import { useFormLogin } from "../_model/use-form-login";
+import { useInvalidateSession } from "@/entity/user/session";
+import { COOKIE_SESSION_NAME } from "@/shared/lib/consts";
+import { Card } from "@/shared/ui/card";
+import { useEffect, useId } from "react";
 
-export function FormLogin() {
-    const { login, form, isPending } = useFormLogin();
+function createLoginFormUrl({
+    id,
+    phoneTitle,
+    styles,
+    backendUrl,
+    type,
+}: {
+    id: string;
+    phoneTitle?: string;
+    styles: string;
+    backendUrl: string;
+    type: string;
+}): string {
+    const url = new URL(
+        "/api/auth-service/login-form/index.html",
+        window.location.origin
+    );
+    url.searchParams.set("id", id);
+    if (phoneTitle) {
+        url.searchParams.set("title", encodeURIComponent(phoneTitle));
+    }
+    url.searchParams.set("styles", encodeURIComponent(styles));
+    url.searchParams.set("backend-url", backendUrl);
+    url.searchParams.set("type", type);
+
+    return url.toString();
+}
+
+export function LoginForm({
+    onLoginSuccess,
+    phoneTitle,
+}: {
+    onLoginSuccess: () => void;
+    phoneTitle?: string;
+}) {
+    const id = useId();
+
+    const invalidateSession = useInvalidateSession();
+
+    useEffect(() => {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const handleMessage = (event: any) => {
+            if (event.data.type === "LOGIN_SUCCESS" && id === event.data.id) {
+                const token = event.data.token;
+                const expires = new Date();
+                expires.setDate(expires.getDate() + 30); // Куки будет действовать 30 дней
+                document.cookie = `${COOKIE_SESSION_NAME}=${token};expires=${expires.toUTCString()};path=/`;
+                invalidateSession();
+                onLoginSuccess();
+            }
+        };
+
+        window.addEventListener("message", handleMessage);
+
+        return () => {
+            window.removeEventListener("message", handleMessage);
+        };
+    }, [id, invalidateSession, onLoginSuccess]);
+
+    const iframeUrl = createLoginFormUrl({
+        id,
+        phoneTitle,
+        styles: ".button {background-color:#003362; border-radius: 10px} .form-container {padding:0px} .back-button {position:absolute; top:2px; left:2px;} .button.loading-button {background-color:#3D3D3D;}",
+        backendUrl: "/api/auth-service",
+        type: "EMPLOYE",
+    });
 
     return (
-        <Form {...form}>
-            {form.formState.errors.root && (
-                <Alert variant="destructive">
-                    <AlertTitle className="font-semibold text-xl">
-                        Ошибка
-                    </AlertTitle>
-                    <AlertDescription className="text-xl">
-                        {form.formState.errors.root.message}{" "}
-                    </AlertDescription>
-                </Alert>
-            )}
-            <form onSubmit={login} className="grid gap-2">
-                <FormField
-                    control={form.control}
-                    name="phone"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormControl>
-                                <Input
-                                    placeholder="Номер телефона"
-                                    {...field}
-                                    className={cn("", {
-                                        "border-red-600 bg-red-50":
-                                            form.formState.errors.root,
-                                    })}
-                                />
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
-                <FormField
-                    control={form.control}
-                    name="password"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormControl>
-                                <Input
-                                    disabled={isPending}
-                                    type="password"
-                                    placeholder="Пароль"
-                                    {...field}
-                                    className={cn("", {
-                                        "border-red-600 bg-red-50":
-                                            form.formState.errors.root,
-                                    })}
-                                />
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
-                <Button type="submit" loading={isPending}>
-                    Войти
-                </Button>
-            </form>
-        </Form>
+        <div className="relative ">
+            {/* <h1 className="text-3xl font-extrabold text-center mt-24">
+                Склад WT10
+            </h1> */}
+            <iframe
+                src={iframeUrl}
+                className="w-full overflow-hidden h-[250px] px-4"
+            />
+            <Card className="bg-white w-full h-fit py-4 text-center border-0 text-blue-dark text-[15px] font-medium">
+                Авторизуйтесь для отслеживания
+            </Card>
+        </div>
     );
 }

@@ -1,6 +1,6 @@
-import { useUsers } from "@/entity/user/user";
 import { Button } from "@/shared/ui/button";
 import { WorkerCard } from "./worker-card";
+import { useWorkers } from "@/entity/user/_queries";
 
 export const WorkersList = ({
     department,
@@ -9,7 +9,7 @@ export const WorkersList = ({
     onBack: () => void;
     department: string | null;
 }) => {
-    const { data, isError, isLoading } = useUsers({ department });
+    const { data, isError, isLoading } = useWorkers({ department });
 
     if (isLoading) {
         return <div>Loading...</div>;

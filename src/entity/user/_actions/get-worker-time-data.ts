@@ -1,7 +1,7 @@
 import { timeGet } from "@/shared/services/transport";
-import { TimeControlUserResponse } from "../_domain/types";
+import { TimeControlUserResponse } from "../../user/_domain/types";
 
-export const getUserTimeData = async ({ tabnum }: { tabnum: string }) => {
+export const getWorkerTimeData = async ({ tabnum }: { tabnum: string }) => {
     const response = await timeGet<TimeControlUserResponse>(
         `persons?tabnum=${tabnum}`
     ).json();

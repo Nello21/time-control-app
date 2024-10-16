@@ -4,12 +4,15 @@ const nextConfig = {
         return [
             {
                 source: "/api/1c/:path*",
-                destination:
-                    "http://192.168.0.223/worktruck/hs/wt_panel/:path*",
+                destination: `${process.env.BASE_URL}/:path*`,
             },
             {
                 source: "/api/time-control/:path*",
-                destination: "http://192.168.0.190:5053/api/:path*",
+                destination: `${process.env.TIME_URL}/:path*`,
+            },
+            {
+                source: "/api/auth-service/:path*",
+                destination: `${process.env.AUTH_URL}/:path*`,
             },
         ];
     },
