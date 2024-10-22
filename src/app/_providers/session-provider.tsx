@@ -5,6 +5,8 @@ import { useAppSession } from "@/entity/user/_queries";
 import { LoginForm } from "../../features/auth/_ui/form-login";
 import { createStrictContext, useStrictContext } from "@/shared/lib/context";
 import { User } from "@/entity/user/_domain/types";
+import { useRouter } from "next/navigation";
+import { routes } from "@/shared/config/routes";
 
 type SessionContextType = { session: User };
 
@@ -13,16 +15,14 @@ export const useSession = () => useStrictContext(sessionContext);
 
 export const SessionProvider = ({ children }: { children: ReactNode }) => {
     const session = useAppSession();
+    const router = useRouter();
 
     if (session.isLoading) {
         return;
     }
     if (!session.data) {
-        return (
-            <LoginForm
-                onLoginSuccess={() => console.log("Вход успешно выполнен")}
-            />
-        );
+        router.replace(routes.LOGIN);
+        return;
     }
 
     return (

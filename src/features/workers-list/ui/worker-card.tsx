@@ -1,6 +1,7 @@
 import { Card } from "@/shared/ui/card";
 import { useWorkerStatus } from "../model/use-worker-status";
 import { Skeleton } from "@/shared/ui/skeleton";
+import { useWorkerFilterParams } from "../model/use-workers-filter-params";
 
 export const WorkerCard = ({
     name,
@@ -9,7 +10,21 @@ export const WorkerCard = ({
     name: string;
     tabnum: string;
 }) => {
-    const { data, isError, isLoading, styles } = useWorkerStatus({ tabnum });
+    const { data, dayType, isError, isLoading, styles } = useWorkerStatus({
+        tabnum,
+    });
+
+    const { dayTypeParams } = useWorkerFilterParams();
+
+    if (dayTypeParams !== "all" && dayType !== dayTypeParams) {
+        return null;
+    }
+
+    if (data?.isLocked === "1") {
+        return null;
+    }
+
+    if (isError) return;
 
     if (isLoading) {
         return (
@@ -24,18 +39,17 @@ export const WorkerCard = ({
         );
     }
 
-    if (isError) return;
-
     return (
         <Card className="flex flex-col justify-between px-4 py-2 gap-4 max-w-[380px] w-full bg-white border-0">
             <div className="flex flex-row justify-between gap-3 max-sm:flex-col">
                 <span>{name}</span>
                 <span className="py-1 text-xs/3 font-normal text-gray-dark truncate">
-                    {data?.profession}
+                    {data?.user.DOLJNAME}
                 </span>
             </div>
-
-            {styles?.element}
+            {typeof styles?.element === "function"
+                ? styles.element({ delay: data?.data?.delay?.delay })
+                : styles?.element}
         </Card>
     );
 };

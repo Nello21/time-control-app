@@ -1,8 +1,10 @@
 "use client";
 
 import { useInvalidateSession } from "@/entity/user/session";
+import { routes } from "@/shared/config/routes";
 import { COOKIE_SESSION_NAME } from "@/shared/lib/consts";
 import { Card } from "@/shared/ui/card";
+import { useRouter } from "next/navigation";
 import { useEffect, useId } from "react";
 
 function createLoginFormUrl({
@@ -41,6 +43,7 @@ export function LoginForm({
     phoneTitle?: string;
 }) {
     const id = useId();
+    const router = useRouter();
 
     const invalidateSession = useInvalidateSession();
 
@@ -54,6 +57,7 @@ export function LoginForm({
                 document.cookie = `${COOKIE_SESSION_NAME}=${token};expires=${expires.toUTCString()};path=/`;
                 invalidateSession();
                 onLoginSuccess();
+                router.push(routes.MAIN);
             }
         };
 

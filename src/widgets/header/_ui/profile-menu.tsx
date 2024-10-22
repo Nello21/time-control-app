@@ -23,16 +23,16 @@ export const ProfileMenu = () => {
                     <Menu
                         size={30}
                         strokeWidth="1.75px"
-                        className="cursor-pointer md:opacity-0 md:cursor-none transition-opacity"
+                        className="cursor-pointer min-[800px]:opacity-0 min-[800px]:cursor-default min-[800px]:pointer-events-none transition-opacity"
                     />
                 </SheetTrigger>
             )}
             {open && (
-                <SheetClose>
+                <SheetClose asChild>
                     <Plus
                         size={30}
                         strokeWidth="1.75px"
-                        className="cursor-pointer rotate-45 md:opacity-0 md:cursor-none transition-opacity"
+                        className="cursor-pointer rotate-45 min-[800px]:opacity-0 min-[800px]:cursor-default min-[800px]:pointer-events-none transition-opacity"
                     />
                 </SheetClose>
             )}
@@ -40,20 +40,18 @@ export const ProfileMenu = () => {
             <SheetContent
                 aria-describedby={undefined}
                 side={"right"}
-                className="w-full bg-gray-light border-0 top-[50px] md:hidden"
+                className="w-full bg-gray-light border-0 top-[50px] min-[800px]:hidden max-[800px]:top-[75px]"
             >
                 <SheetHeader className="hidden">
                     <SheetTitle />
                 </SheetHeader>
-                <div className="flex flex-col gap-4">
-                    <div
-                        className="flex gap-2 items-center font-semibold"
-                        onClick={() => closeSheet()}
-                    >
-                        <Profile />
+                <div className="flex flex-col gap-5 justify-center content-center sm:px-6">
+                    <div className="flex gap-2 font-semibold">
+                        {session.data && <Profile />}
                     </div>
-
-                    <LogoutBtn />
+                    <div className="flex justify-center">
+                        <LogoutBtn closeMenu={closeSheet} />
+                    </div>
                 </div>
             </SheetContent>
         </Sheet>

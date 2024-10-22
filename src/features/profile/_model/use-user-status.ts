@@ -1,12 +1,11 @@
-import { useProfilePlan } from "@/entity/user/_queries";
+import { useProfileAllInfo } from "@/entity/user/_queries";
 import { useEffect, useState } from "react";
-import { modifiersClassNames } from "./modifiers";
 import { WorksPlan } from "@/entity/user/_domain/types";
 
 export const useUserStatus = ({ tabnum }: { tabnum: string }) => {
     const [date, setDate] = useState<Date | undefined>(new Date());
 
-    const currentDate = new Date();
+    const now = new Date();
 
     const startOfMonth = date
         ? new Date(date.getFullYear(), date.getMonth(), 1)
@@ -15,34 +14,23 @@ export const useUserStatus = ({ tabnum }: { tabnum: string }) => {
     let endOfMonth;
 
     if (
-        date?.getFullYear() === currentDate.getFullYear() &&
-        date.getMonth() === currentDate.getMonth()
+        date?.getFullYear() === now.getFullYear() &&
+        date.getMonth() === now.getMonth()
     ) {
-        endOfMonth = currentDate;
+        endOfMonth = now;
     } else {
         endOfMonth = date
             ? new Date(date.getFullYear(), date.getMonth() + 1, 0)
             : new Date();
     }
 
-    const formattedStartDate = startOfMonth.toLocaleDateString("ru-RU", {
-        day: "2-digit",
-        month: "2-digit",
-        year: "numeric",
-    });
-    const formattedEndDate = endOfMonth.toLocaleDateString("ru-RU", {
-        day: "2-digit",
-        month: "2-digit",
-        year: "numeric",
-    });
+    const formattedStartDate = startOfMonth.toLocaleDateString("ru-RU");
+    const formattedEndDate = endOfMonth.toLocaleDateString("ru-RU");
 
-    const { data, isError, isLoading } = useProfilePlan({
+    const { data, isError, isLoading } = useProfileAllInfo({
         id: tabnum,
         date: { start: formattedStartDate, end: formattedEndDate },
     });
-
-    console.log("intervals", formattedStartDate, formattedEndDate);
-    console.log("data", data?.data);
 
     const [modifiers, setModifiers] = useState<Record<string, Date[]>>({});
 
@@ -57,10 +45,12 @@ export const useUserStatus = ({ tabnum }: { tabnum: string }) => {
                 "5": [],
             };
 
-            data.data.forEach((day: WorksPlan) => {
+            data.data.plan.forEach((day: WorksPlan) => {
                 const { WORKDATE, DAYTYPE } = day;
 
-                const formattedDate = new Date(WORKDATE);
+                const formattedDate = new Date(
+                    WORKDATE.split(".").reverse().join("-")
+                );
 
                 if (newModifiers[DAYTYPE]) {
                     newModifiers[DAYTYPE].push(formattedDate);
@@ -71,7 +61,13 @@ export const useUserStatus = ({ tabnum }: { tabnum: string }) => {
         }
     }, [data]);
 
-    console.log("modifiers", modifiers);
-
-    return { data, date, setDate, isError, isLoading, modifiers };
+    return {
+        data,
+        profileDate: { start: formattedStartDate, end: formattedEndDate },
+        date,
+        setDate,
+        isError,
+        isLoading,
+        modifiers,
+    };
 };

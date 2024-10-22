@@ -25,6 +25,7 @@ const config = {
             gray: {
                 light: "#EEEEEE",
                 dark: "#464646",
+                medium: "#BDBDBD",
                 gray: colors.gray,
             },
             blue: {
@@ -49,6 +50,11 @@ const config = {
                 light: "#F2994A",
                 orange: colors.orange,
             },
+            brown: {
+                light: "#F2994A",
+                orange: colors.orange,
+            },
+            amber: colors.amber,
             white: colors.white,
             black: colors.black,
             transparent: colors.transparent,

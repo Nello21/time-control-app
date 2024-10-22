@@ -1,17 +1,21 @@
 import { cn } from "@/shared/lib/utils";
-import { Bandage, Check, Handshake, Plane, Plus } from "lucide-react";
+import { Bandage, Check, Clock9, Handshake, Plane, Plus } from "lucide-react";
 
 export const Container = ({
     className,
+    flexPosition,
     icon,
     status,
+    delay,
 }: {
     className: string;
+    flexPosition: string;
     icon: React.ReactNode;
     status: string;
+    delay?: string;
 }) => {
     return (
-        <div className="flex justify-start">
+        <div className={cn("flex", flexPosition)}>
             <div
                 className={cn(
                     className,
@@ -19,8 +23,8 @@ export const Container = ({
                 )}
             >
                 {icon}
-                <span className="text-sm sm:text-[16px] font-medium ">
-                    {status}
+                <span className="text-sm sm:text-[16px] font-medium select-none">
+                    {delay ? `${status} в ${delay}` : <span>{status}</span>}
                 </span>
             </div>
         </div>
@@ -33,6 +37,7 @@ export const dayTypeStyles = {
             <Container
                 icon={<Check size={20} className="" />}
                 className="bg-green-light"
+                flexPosition="justify-start"
                 status="на работе"
             />
         ),
@@ -40,18 +45,20 @@ export const dayTypeStyles = {
     "1": {
         element: (
             <Container
-                icon={<Plane size={20} className="" />}
-                className="bg-yellow-light"
-                status="на работе"
+                icon={<Bandage size={20} className="rotate-[-45deg]" />}
+                className="bg-blue-light"
+                flexPosition="justify-end"
+                status="больничный"
             />
         ),
     },
     "2": {
         element: (
             <Container
-                icon={<Bandage size={20} className="rotate-[-45deg]" />}
-                className="bg-blue-light"
-                status="на работе"
+                icon={<Plane size={20} className="" />}
+                className="bg-yellow-light"
+                flexPosition="justify-end"
+                status="в отпуске"
             />
         ),
     },
@@ -59,8 +66,9 @@ export const dayTypeStyles = {
         element: (
             <Container
                 icon={<Check size={20} className="" />}
-                className="bg-green-dark"
-                status="на работе"
+                className="bg-amber-900"
+                flexPosition="justify-end"
+                status="в командировке"
             />
         ),
     },
@@ -69,7 +77,8 @@ export const dayTypeStyles = {
             <Container
                 icon={<Handshake size={20} className="" />}
                 className="bg-orange-light"
-                status="на работе"
+                flexPosition="justify-end"
+                status="административный"
             />
         ),
     },
@@ -78,8 +87,40 @@ export const dayTypeStyles = {
             <Container
                 icon={<Plus size={20} className="rotate-45" />}
                 className="bg-red-light"
-                status="на работе"
+                flexPosition="justify-end"
+                status="отсутствует"
             />
+        ),
+    },
+    "6": {
+        // удаленка
+        element: (
+            <Container
+                icon={<Check size={20} className="" />}
+                className="bg-green-dark"
+                flexPosition="justify-start"
+                status="На удаленной"
+            />
+        ),
+    },
+    "7": {
+        // опоздание
+        element: ({ delay }: { delay?: string }) => (
+            <div className="flex flex-wrap justify-end gap-1">
+                <Container
+                    icon={<Clock9 size={20} className="" />}
+                    className="bg-gray-medium"
+                    flexPosition="justify-center"
+                    status="опоздание"
+                    delay={delay}
+                />
+                <Container
+                    icon={<Plus size={20} className="rotate-45" />}
+                    className="bg-red-light"
+                    flexPosition="justify-center"
+                    status="отсутствует"
+                />
+            </div>
         ),
     },
 };

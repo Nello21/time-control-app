@@ -9,5 +9,6 @@ export const getWorkers = async ({
     const response = await baseGet<Employee[]>(
         `workers-list/${department}`
     ).json();
+
     return response;
 };

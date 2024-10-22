@@ -12,6 +12,16 @@ export type Employee = {
     tasks: string;
 };
 
+export type ArrivalResponse = {
+    result: number;
+    ADD_RESULT: string;
+};
+
+export type WorkerDelay = {
+    uid: string;
+    delay: string;
+};
+
 export type TimeControlUserResponse = {
     record_count: number;
     data: TimeControlUser[];
@@ -67,4 +77,25 @@ export type WorksPlan = {
     PROGUL: string;
     ISGO: string;
     DAYNAME_SHORT: string;
+};
+
+export type WorkerIntervalResponse = {
+    record_count: number;
+    data: Interval[];
+};
+
+export type Interval = {
+    rec_no: number;
+    FULLNAME: string;
+    DEVICE_UID: string;
+    UID: string;
+    STARTTIME: string;
+    ENDTIME: string;
+    ISGO: string;
+    ADDTYPE: string;
+    CLOSETYPE: string;
+    ADDDOOR: string;
+    CLOSEDOOR: string;
+    STARTDATE: string;
+    ENDDATE: string;
 };

@@ -1,8 +1,10 @@
 import { timeGet } from "@/shared/services/transport";
 import { WorkerPlanResponse } from "../_domain/types";
 import { getWorkerTimeData } from "./get-worker-time-data";
+import { getInterval } from "./get-interval";
+import { getWorkerAvatar } from "./get-user-avatar";
 
-export const getProfilePlan = async ({
+export const getProfileInfo = async ({
     id,
     date,
 }: {
@@ -11,17 +13,26 @@ export const getProfilePlan = async ({
 }) => {
     const user = await getWorkerTimeData({ tabnum: id });
 
+    const avatar = await getWorkerAvatar({ tabnum: id });
+
+    const interval = await getInterval({ user });
+
     if (!user) {
         throw new Error(
             `No valid user data found for worker with tabnum ${id}`
         );
     }
 
-    console.log(date);
-
-    const response = await timeGet<WorkerPlanResponse>(
+    const plan = await timeGet<WorkerPlanResponse>(
         `time/works?startdate=${date.start}&enddate=${date.end}&person_list=${user[0].UID}`
     ).json();
 
-    return { data: response.data, profession: user[0].DOLJNAME };
+    return {
+        data: {
+            plan: plan.data,
+            interval: interval,
+            user: user,
+            avatar: avatar,
+        },
+    };
 };

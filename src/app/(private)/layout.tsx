@@ -1,5 +1,7 @@
-import { SessionProvider } from "@/app/_providers/session-provider";
 import { Container } from "@/shared/ui/container";
+import { SessionProvider } from "../_providers/session-provider";
+import { Header } from "@/widgets/header/_ui/header";
+import { Toaster } from "@/shared/ui/toaster";
 
 export default function Layout({
     children,
@@ -9,13 +11,15 @@ export default function Layout({
     profile: React.ReactNode;
 }) {
     return (
-        <div className="h-auto px-4 sm:mt-[50px]">
-            <Container className="px-0 flex flex-row items-center sm:items-start gap-6">
-                <SessionProvider>
+        <div className="flex flex-col h-full">
+            <SessionProvider>
+                <Header />
+                <Container className="flex flex-row items-center sm:items-start gap-8 mt-[20px] sm:mt-[50px] px-5 py-4">
                     {children}
                     {profile}
-                </SessionProvider>
-            </Container>
+                </Container>
+                <Toaster />
+            </SessionProvider>
         </div>
     );
 }

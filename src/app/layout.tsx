@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
 import { AppProvider } from "./_providers/reactQuery-provider";
 import "./globals.css";
-import { Header } from "@/widgets/header/_ui/header";
 
 const font = Montserrat({ subsets: ["latin"] });
 
@@ -22,10 +21,7 @@ export default function RootLayout({
                 className={`${font.className} min-h-[100dvh] bg-gray-light flex flex-col`}
             >
                 <AppProvider>
-                    <Header />
-                    <main className="flex-grow flex flex-col items-center my-4 ">
-                        {children}
-                    </main>
+                    <main className="min-h-[100dvh]">{children}</main>
                 </AppProvider>
             </body>
         </html>

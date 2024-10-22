@@ -8,13 +8,10 @@ export default function Workers() {
     const router = useRouter();
 
     return (
-        <div className="w-full space-y-6">
-            <span className="text-[25px]/[24.88px] font-semibold">
-                Отделы компании
-            </span>
+        <div className="w-full max-w-[768px] space-y-6">
             <WorkersList
                 department={params.name}
-                onBack={() => router.back()}
+                onBack={() => router.push("/")}
             />
         </div>
     );
