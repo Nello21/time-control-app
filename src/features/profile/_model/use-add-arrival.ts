@@ -13,7 +13,7 @@ export const useAddArrival = ({
 }: {
     id: string;
     isgo: string | undefined;
-    date: { start: String; end: String };
+    date: { start: string; end: string };
 }) => {
     const invalidateWorkerPlan = useIvalidateWorkerAllInfo();
     const invalidateProfilePlan = useIvalidateProfileAllInfo();

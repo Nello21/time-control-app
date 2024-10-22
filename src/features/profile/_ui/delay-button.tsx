@@ -21,8 +21,14 @@ import {
 } from "@/shared/ui/form";
 import { useFormDelay } from "../_model/use-form-delay";
 
-export const DelayButton = ({ uid }: { uid: string | undefined }) => {
-    const { form, delaySubmit } = useFormDelay({ id: uid });
+export const DelayButton = ({
+    uid,
+    delay,
+}: {
+    uid: string | undefined;
+    delay: string | undefined;
+}) => {
+    const { form, delaySubmit } = useFormDelay({ id: uid, delay: delay });
 
     const [open, setOpen] = useState(false);
 

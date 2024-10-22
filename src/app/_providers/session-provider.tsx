@@ -2,7 +2,6 @@
 
 import { ReactNode } from "react";
 import { useAppSession } from "@/entity/user/_queries";
-import { LoginForm } from "../../features/auth/_ui/form-login";
 import { createStrictContext, useStrictContext } from "@/shared/lib/context";
 import { User } from "@/entity/user/_domain/types";
 import { useRouter } from "next/navigation";

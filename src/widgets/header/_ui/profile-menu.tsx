@@ -10,11 +10,10 @@ import {
 } from "@/shared/ui/sheet";
 import { Menu, Plus } from "lucide-react";
 import { useMenu } from "../_model/use-menu";
-import { LogoutBtn } from "./logout-btn";
 import { Profile } from "@/features/profile/_ui/profile";
 
 export const ProfileMenu = () => {
-    const { closeSheet, session, setOpen, open } = useMenu();
+    const { session, setOpen, open } = useMenu();
 
     return (
         <Sheet open={open} onOpenChange={setOpen}>
@@ -48,9 +47,6 @@ export const ProfileMenu = () => {
                 <div className="flex flex-col gap-5 justify-center content-center sm:px-6">
                     <div className="flex gap-2 font-semibold">
                         {session.data && <Profile />}
-                    </div>
-                    <div className="flex justify-center">
-                        <LogoutBtn closeMenu={closeSheet} />
                     </div>
                 </div>
             </SheetContent>

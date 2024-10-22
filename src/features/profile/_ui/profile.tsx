@@ -6,6 +6,8 @@ import { useSession } from "@/app/_providers/session-provider";
 import { useUserStatus } from "../_model/use-user-status";
 import { RemoteButton } from "./remote-button";
 import { DelayButton } from "./delay-button";
+import { Spinner } from "@/shared/ui/spinner";
+import { LogoutBtn } from "@/widgets/header/_ui/logout-btn";
 
 export const Profile = () => {
     const { session } = useSession();
@@ -14,6 +16,15 @@ export const Profile = () => {
             tabnum: session.id,
         });
 
+    if (isLoading) {
+        <Spinner />;
+    }
+
+    if (isError) {
+        <div>Ошибка загрузки пользователя</div>;
+    }
+
+    const delay = data?.data.delay?.delay;
     const avatar = data?.data.avatar;
     const user = data?.data.user[0];
     const plan = data?.data.plan[0];
@@ -48,7 +59,7 @@ export const Profile = () => {
                 modifiers={modifiers}
             />
 
-            <DelayButton uid={session.id} />
+            <DelayButton uid={session.id} delay={delay} />
             <RemoteButton
                 id={session.id}
                 uid={plan?.UID}
@@ -56,6 +67,7 @@ export const Profile = () => {
                 isgo={lastInterval?.ISGO}
                 date={profileDate}
             />
+            <LogoutBtn />
         </div>
     );
 };

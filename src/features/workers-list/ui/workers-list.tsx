@@ -2,6 +2,7 @@ import { Button } from "@/shared/ui/button";
 import { WorkerCard } from "./worker-card";
 import { useWorkers } from "@/entity/user/_queries";
 import { WorkersDropdown } from "./workers-dropdown";
+import { FullpageSpinner } from "@/shared/ui/full-page-spinner";
 
 export const WorkersList = ({
     department,
@@ -13,11 +14,11 @@ export const WorkersList = ({
     const { data, isError, isLoading } = useWorkers({ department });
 
     if (isLoading) {
-        return <div>Loading...</div>;
+        return <FullpageSpinner />;
     }
 
     if (isError) {
-        return <div>Error loading users data.</div>;
+        return <div>Ошибка загрузки данных</div>;
     }
 
     return (

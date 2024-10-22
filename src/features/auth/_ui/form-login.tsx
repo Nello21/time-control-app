@@ -66,7 +66,7 @@ export function LoginForm({
         return () => {
             window.removeEventListener("message", handleMessage);
         };
-    }, [id, invalidateSession, onLoginSuccess]);
+    }, [id, invalidateSession, onLoginSuccess, router]);
 
     const iframeUrl = createLoginFormUrl({
         id,

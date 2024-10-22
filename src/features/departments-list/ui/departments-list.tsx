@@ -2,19 +2,19 @@
 
 import { useGetDepartments } from "@/entity/department/departments";
 import { cn } from "@/shared/lib/utils";
+import { FullpageSpinner } from "@/shared/ui/full-page-spinner";
 import { ChevronRight } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
 
 export const DepartmentsList = () => {
     const { data, isLoading, isError } = useGetDepartments();
 
     if (isLoading) {
-        return <div>Loading...</div>;
+        return <FullpageSpinner />;
     }
 
     if (isError) {
-        return <div>Error loading user data.</div>;
+        return <div>Ошибка загрузки данных</div>;
     }
 
     return (

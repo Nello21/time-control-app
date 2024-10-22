@@ -1,6 +1,6 @@
 "use client";
 
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { getSession, logout } from "../_actions/session";
 import { getWorkers } from "../_actions/get-workers";
 import { getWorkerInfo } from "../_actions/get-worker-all-info";
@@ -40,7 +40,7 @@ export function useProfileAllInfo({
     date,
 }: {
     id: string;
-    date: { start: String; end: String };
+    date: { start: string; end: string };
 }) {
     return useQuery({
         queryKey: [profileInfoKey, id, date],
@@ -56,7 +56,7 @@ export function useIvalidateProfileAllInfo() {
         date,
     }: {
         id: string;
-        date: { start: String; end: String };
+        date: { start: string; end: string };
     }) =>
         queryClient.invalidateQueries({
             queryKey: [profileInfoKey, id, date],

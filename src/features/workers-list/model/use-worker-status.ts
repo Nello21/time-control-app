@@ -61,7 +61,7 @@ export const useWorkerStatus = ({ tabnum }: { tabnum: string }) => {
         };
 
         updateWorkerStatus();
-    }, [data]);
+    }, [data, tabnum, invalidateWorkerPlan]);
 
     return { data, dayType, isError, isLoading, styles };
 };

@@ -24,7 +24,7 @@ export const RemoteButton = ({
     uid: string | undefined;
     isgo: string | undefined;
     addType: string | undefined;
-    date: { start: String; end: String };
+    date: { start: string; end: string };
 }) => {
     const [open, setOpen] = useState(false);
 
@@ -83,10 +83,12 @@ export const RemoteButton = ({
                         <Button
                             className="max-w-[175px] w-full bg-blue-dark text-white"
                             onClick={() => {
-                                isgo === "1"
-                                    ? mutate({ uid, inouttype: 2 })
-                                    : mutate({ uid, inouttype: 1 }),
-                                    closeSheet();
+                                if (isgo === "1") {
+                                    mutate({ uid, inouttype: 2 });
+                                } else {
+                                    mutate({ uid, inouttype: 1 });
+                                }
+                                closeSheet();
                             }}
                             disabled={isPending}
                         >

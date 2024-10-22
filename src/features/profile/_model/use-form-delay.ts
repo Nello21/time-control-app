@@ -11,9 +11,16 @@ const timeSchema = z.object({
         message: "Введите корректное время в формате H:mm или HH:mm",
     }),
 });
-const invalidateWorkerPlan = useIvalidateWorkerAllInfo();
 
-export const useFormDelay = ({ id }: { id: string | undefined }) => {
+export const useFormDelay = ({
+    id,
+    delay,
+}: {
+    id: string | undefined;
+    delay: string | undefined;
+}) => {
+    const invalidateWorkerPlan = useIvalidateWorkerAllInfo();
+
     const { toast } = useToast();
 
     const form = useForm({
@@ -32,10 +39,17 @@ export const useFormDelay = ({ id }: { id: string | undefined }) => {
                 );
                 return;
             }
-
-            toast({
-                title: "Зафиксировано опоздание",
-            });
+            if (delay) {
+                toast({
+                    title: "Зафиксировано опоздание",
+                    description: `время прибытия ${delay}`,
+                });
+            } else {
+                toast({
+                    title: "Опоздание не зафиксировано",
+                    description: `Вы уже были на работе`,
+                });
+            }
 
             await invalidateWorkerPlan({ id });
         },
