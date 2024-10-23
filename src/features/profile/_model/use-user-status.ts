@@ -4,6 +4,7 @@ import { WorksPlan } from "@/entity/user/_domain/types";
 
 export const useUserStatus = ({ tabnum }: { tabnum: string }) => {
     const [date, setDate] = useState<Date | undefined>(new Date());
+    const [modifiers, setModifiers] = useState<Record<string, Date[]>>({});
 
     const now = new Date();
 
@@ -32,8 +33,6 @@ export const useUserStatus = ({ tabnum }: { tabnum: string }) => {
         date: { start: formattedStartDate, end: formattedEndDate },
     });
 
-    const [modifiers, setModifiers] = useState<Record<string, Date[]>>({});
-
     useEffect(() => {
         if (data) {
             const newModifiers: Record<string, Date[]> = {
@@ -61,8 +60,19 @@ export const useUserStatus = ({ tabnum }: { tabnum: string }) => {
         }
     }, [data]);
 
+    const plan = data?.data.plan[0];
+    const interval = data?.data.interval;
+    const lastInterval = interval && interval[interval.length - 1];
+    const delay = data?.data.delay?.delay;
+    const user = data?.data.user[0];
+    const avatar = data?.data.avatar;
+
     return {
-        data,
+        plan,
+        lastInterval,
+        delay,
+        user,
+        avatar,
         profileDate: { start: formattedStartDate, end: formattedEndDate },
         date,
         setDate,

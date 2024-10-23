@@ -11,10 +11,21 @@ import { LogoutBtn } from "@/widgets/header/_ui/logout-btn";
 
 export const Profile = () => {
     const { session } = useSession();
-    const { data, date, profileDate, setDate, modifiers, isError, isLoading } =
-        useUserStatus({
-            tabnum: session.id,
-        });
+    const {
+        plan,
+        lastInterval,
+        delay,
+        user,
+        avatar,
+        date,
+        profileDate,
+        setDate,
+        modifiers,
+        isError,
+        isLoading,
+    } = useUserStatus({
+        tabnum: session.id,
+    });
 
     if (isLoading) {
         <Spinner />;
@@ -23,14 +34,6 @@ export const Profile = () => {
     if (isError) {
         <div>Ошибка загрузки пользователя</div>;
     }
-
-    const delay = data?.data.delay?.delay;
-    const avatar = data?.data.avatar;
-    const user = data?.data.user[0];
-    const plan = data?.data.plan[0];
-    const interval = data?.data.interval;
-    const lastInterval = interval && interval[interval.length - 1];
-    const depart = user?.DEPART;
 
     return (
         <div className={`w-full h-full space-y-3 mt-[60px]`}>
@@ -65,7 +68,7 @@ export const Profile = () => {
                 delay={delay}
                 isgo={lastInterval?.ISGO}
             />
-            {depart === "40" && (
+            {user?.DEPART === "40" && (
                 <RemoteButton
                     id={session.id}
                     uid={plan?.UID}
