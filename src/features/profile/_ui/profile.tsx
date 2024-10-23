@@ -30,17 +30,18 @@ export const Profile = () => {
     const plan = data?.data.plan[0];
     const interval = data?.data.interval;
     const lastInterval = interval && interval[interval.length - 1];
+    const depart = user?.DEPART;
 
     return (
         <div className={`w-full h-full space-y-3 mt-[60px]`}>
-            <div className="relative h-[96px] flex flex-col items-center justify-end py-4 bg-white rounded-[10px]">
+            <div className="relative h-[100px] flex flex-col items-center justify-end py-4 bg-white rounded-[10px]">
                 {avatar && (
                     <Image
                         src={avatar}
                         alt="Аватар"
                         width={100}
                         height={100}
-                        className="rounded-full w-[100px] h-[100px] object-cover object-top absolute top-[-65px]"
+                        className="rounded-full w-[100px] h-[100px] object-cover object-top absolute top-[-60px]"
                     />
                 )}
                 <div className="flex flex-col justify-center items-center gap-2">
@@ -59,14 +60,20 @@ export const Profile = () => {
                 modifiers={modifiers}
             />
 
-            <DelayButton uid={session.id} delay={delay} />
-            <RemoteButton
-                id={session.id}
-                uid={plan?.UID}
-                addType={lastInterval?.ADDTYPE}
+            <DelayButton
+                uid={session.id}
+                delay={delay}
                 isgo={lastInterval?.ISGO}
-                date={profileDate}
             />
+            {depart === "40" && (
+                <RemoteButton
+                    id={session.id}
+                    uid={plan?.UID}
+                    addType={lastInterval?.ADDTYPE}
+                    isgo={lastInterval?.ISGO}
+                    date={profileDate}
+                />
+            )}
             <LogoutBtn />
         </div>
     );

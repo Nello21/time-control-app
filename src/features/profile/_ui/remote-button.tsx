@@ -36,10 +36,14 @@ export const RemoteButton = ({
         }
     };
 
+    if (addType === "2") {
+        return null;
+    }
+
     return (
         <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger asChild>
-                {isgo && addType && isgo === "1" && addType === "1" ? (
+                {isgo === "1" && addType === "1" ? (
                     <Button className="flex flex-row gap-2 bg-red-light text-white hover:bg-red-red-800 transition-color">
                         <MonitorX />
                         <span>Завершить удаленную работу</span>

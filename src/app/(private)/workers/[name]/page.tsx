@@ -8,10 +8,11 @@ export default function Workers() {
     const router = useRouter();
 
     return (
-        <div className="w-full max-w-[768px] space-y-6">
+        <div className="relative w-full min-h-[600px] max-w-[768px] space-y-6">
             <WorkersList
                 department={params.name}
                 onBack={() => router.push("/")}
+                onRefresh={() => router.refresh()}
             />
         </div>
     );

@@ -15,8 +15,10 @@ const timeSchema = z.object({
 export const useFormDelay = ({
     id,
     delay,
+    isgo,
 }: {
     id: string | undefined;
+    isgo: string | undefined;
     delay: string | undefined;
 }) => {
     const invalidateWorkerPlan = useIvalidateWorkerAllInfo();
@@ -39,17 +41,11 @@ export const useFormDelay = ({
                 );
                 return;
             }
-            if (delay) {
-                toast({
-                    title: "Зафиксировано опоздание",
-                    description: `время прибытия ${delay}`,
-                });
-            } else {
-                toast({
-                    title: "Опоздание не зафиксировано",
-                    description: `Вы уже были на работе`,
-                });
-            }
+
+            toast({
+                title: "Опоздание зафиксировано",
+                description: `Время прибытия в ${delay}`,
+            });
 
             await invalidateWorkerPlan({ id });
         },
@@ -61,10 +57,17 @@ export const useFormDelay = ({
     });
 
     async function onSubmit(values: z.infer<typeof timeSchema>) {
-        mutate({
-            uid: id,
-            time: values.time,
-        });
+        if (isgo) {
+            toast({
+                title: "Опоздание не зафиксировано",
+                description: "вы уже приходили на работу",
+            });
+        } else {
+            mutate({
+                uid: id,
+                time: values.time,
+            });
+        }
     }
 
     return {

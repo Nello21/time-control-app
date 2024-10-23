@@ -37,7 +37,7 @@ export function CalendarWidget({
 
             {tooltip && (
                 <div
-                    className={`absolute px-3 py-2 rounded-md z-20 shadow-2xl ${tooltip.bg} ${opacity} transition-opacity select-none pointer-events-none`}
+                    className={`absolute px-3 py-2 rounded-md z-20 drop-shadow-2xl ${tooltip.bg} ${opacity} transition-opacity select-none pointer-events-none`}
                     style={{
                         left: tooltip.x,
                         top: tooltip.y,

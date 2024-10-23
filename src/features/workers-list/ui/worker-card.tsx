@@ -40,7 +40,7 @@ export const WorkerCard = ({
     }
 
     return (
-        <Card className="flex flex-col justify-between px-4 py-2 gap-4 max-w-[380px] w-full bg-white border-0">
+        <Card className="flex flex-col justify-between px-4 py-2 gap-4 w-full max-w-[400px] sm:max-w-[380px] bg-white border-0">
             <div className="flex flex-row justify-between gap-3 max-sm:flex-col">
                 <span>{name}</span>
                 <span className="py-1 text-xs/3 font-normal text-gray-dark truncate">

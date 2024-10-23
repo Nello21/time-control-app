@@ -24,11 +24,17 @@ import { useFormDelay } from "../_model/use-form-delay";
 export const DelayButton = ({
     uid,
     delay,
+    isgo,
 }: {
     uid: string | undefined;
+    isgo: string | undefined;
     delay: string | undefined;
 }) => {
-    const { form, delaySubmit } = useFormDelay({ id: uid, delay: delay });
+    const { form, delaySubmit } = useFormDelay({
+        id: uid,
+        delay: delay,
+        isgo: isgo,
+    });
 
     const [open, setOpen] = useState(false);
 

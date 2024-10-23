@@ -24,7 +24,8 @@ export function useWorkerAllInfo({ id }: { id: string }) {
         queryKey: [workerInfoKey, id],
         queryFn: () => getWorkerInfo({ id }),
         retry: 0,
-        staleTime: 0,
+        staleTime: 1000 * 60,
+        refetchInterval: 1000 * 60 * 5,
     });
 }
 

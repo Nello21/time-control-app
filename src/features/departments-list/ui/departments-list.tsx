@@ -2,7 +2,7 @@
 
 import { useGetDepartments } from "@/entity/department/departments";
 import { cn } from "@/shared/lib/utils";
-import { FullpageSpinner } from "@/shared/ui/full-page-spinner";
+import { Skeleton } from "@/shared/ui/skeleton";
 import { ChevronRight } from "lucide-react";
 import Link from "next/link";
 
@@ -10,7 +10,22 @@ export const DepartmentsList = () => {
     const { data, isLoading, isError } = useGetDepartments();
 
     if (isLoading) {
-        return <FullpageSpinner />;
+        return (
+            <div className="flex flex-col gap-2">
+                {Array.from({ length: 11 }).map((_, i) => {
+                    return (
+                        <div
+                            className="h-[40px] max-w-[750px] w-full px-4 bg-white flex flex-row items-center justify-between gap-4 rounded-[10px]"
+                            key={i}
+                        >
+                            <span className="text-sm/[14px] font-medium">
+                                <Skeleton className="w-[300px] h-6" />
+                            </span>
+                        </div>
+                    );
+                })}
+            </div>
+        );
     }
 
     if (isError) {

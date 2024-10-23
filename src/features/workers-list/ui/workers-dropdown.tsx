@@ -12,6 +12,7 @@ import {
 import { SlidersHorizontal } from "lucide-react";
 import { Separator } from "@/shared/ui/separator";
 import { useWorkerFilterParams } from "../model/use-workers-filter-params";
+import { Button } from "@/shared/ui/button";
 
 export function WorkersDropdown() {
     const { dayTypeParams, handleDayTypeChange } = useWorkerFilterParams();
@@ -19,7 +20,9 @@ export function WorkersDropdown() {
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild className="cursor-pointer">
-                <SlidersHorizontal />
+                <Button size="icon" variant="ghost">
+                    <SlidersHorizontal />
+                </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent
                 className="w-56 bg-white border-0"
